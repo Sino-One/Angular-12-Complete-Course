@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'courseApp';
+  featureSelected = '';
+
+  onChangeFeature(feature: string) {
+    this.featureSelected = feature;
+  }
 }
