@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Post} from './post.model';
 import {catchError, map} from 'rxjs/operators';
 import {Subject, throwError} from 'rxjs';
@@ -11,7 +11,7 @@ export class PostsService {
   constructor(private http: HttpClient) {}
 
   createAndStorePost(title: string, content: string) {
-    const postData: Post = {title: title, content: content};
+    const postData: Post = {title, content};
     this.http.post<{name: string}>(
       'https://angular-http-full-course-default-rtdb.europe-west1.firebasedatabase.app/posts.json',
       postData).subscribe((responseData) => {
@@ -23,7 +23,10 @@ export class PostsService {
 
   fetchPosts(){
     return this.http.get<{[key: string]: Post}>(
-      'https://angular-http-full-course-default-rtdb.europe-west1.firebasedatabase.app/posts.json')
+      'https://angular-http-full-course-default-rtdb.europe-west1.firebasedatabase.app/posts.json',
+      {
+        headers: new HttpHeaders({'Custom-Header': 'Hello'})
+      })
       .pipe(
         //  tap(response => console.log(response)),
         map((responseData) => {
