@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
   }
 
   onCreatePost(postData: Post) {
-    this.http.post(
+    this.http.post<{name: string}>(
       'https://angular-http-full-course-default-rtdb.europe-west1.firebasedatabase.app/posts.json',
       postData).subscribe((responseData) => {
         console.log(responseData);
@@ -34,10 +34,10 @@ export class AppComponent implements OnInit {
   }
 
   private fetchPosts() {
-    this.http.get('https://angular-http-full-course-default-rtdb.europe-west1.firebasedatabase.app/posts.json')
+    this.http.get<{[key: string]: Post}>('https://angular-http-full-course-default-rtdb.europe-west1.firebasedatabase.app/posts.json')
       .pipe(
       //  tap(response => console.log(response)),
-        map((responseData: {[key: string]: Post}) => {
+        map((responseData) => {
           const postsArray: Post[] = [];
           for (const key in responseData) {
             if (responseData.hasOwnProperty(key)) {
@@ -48,7 +48,7 @@ export class AppComponent implements OnInit {
         })
       )
       .subscribe( posts => {
-      console.log(posts[0]);
+      console.log(posts);
     });
   }
 }
