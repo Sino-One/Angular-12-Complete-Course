@@ -3,6 +3,7 @@ import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {catchError, tap} from 'rxjs/operators';
 import {BehaviorSubject, throwError} from 'rxjs';
 import {User} from "./user.model";
+import {Router} from "@angular/router";
 
 export interface AuthresponseData {
   kind: string;
@@ -20,7 +21,7 @@ export class AuthService {
   user = new BehaviorSubject<User>(null);
   token: string = null;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   signup(email: string, password: string) {
     return this.http.post<AuthresponseData>('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAOecvVFggXeJvRBmYNSMA3eW9fxdRLiT0',
@@ -44,11 +45,18 @@ export class AuthService {
     }));
   }
 
+  logout() {
+    this.user.next(null);
+    this.router.navigate(['/auth']);
+  }
+
   private handleAuthentication(email: string, userId: string, token: string, expiresIn: number) {
     const expirationDate = new Date(new Date().getTime() + +expiresIn * 1000);
     const user = new User(email, userId, token, expirationDate);
     this.user.next(user);
   }
+
+
 
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'An unknown error occured!';

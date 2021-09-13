@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {RecipeService} from '../recipes/recipe.service';
 import {Recipe} from '../recipes/recipe.model';
-import {map, take, tap, exhaustMap} from "rxjs/operators";
-import {AuthService} from "../auth/auth.service";
+import {map, tap} from 'rxjs/operators';
+
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +11,7 @@ import {AuthService} from "../auth/auth.service";
 export class DataStorageService {
 
   constructor(private http: HttpClient,
-              private recipeService: RecipeService,
-              private authService: AuthService) {
+              private recipeService: RecipeService) {
 
   }
 
@@ -25,14 +24,9 @@ export class DataStorageService {
   }
 
   fetchRecipes() {
-    return this.authService.user.pipe(take(1), exhaustMap(user => {
       return this.http.get<Recipe[]>(
-        'https://ng-course-recipe-83936-default-rtdb.europe-west1.firebasedatabase.app/recipes.json',
-        {
-          params: new HttpParams().set('auth', user.token)
-        }
-      );
-    }), map(recipes => {
+        'https://ng-course-recipe-83936-default-rtdb.europe-west1.firebasedatabase.app/recipes.json'
+      ).pipe(map(recipes => {
         return recipes.map(recipe => {
           return {
             ...recipe,
