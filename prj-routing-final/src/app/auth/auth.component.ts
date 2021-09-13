@@ -1,16 +1,16 @@
 import {Component, ComponentFactoryResolver, OnDestroy, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {AuthresponseData, AuthService} from './auth.service';
-import {Observable, Subscription} from "rxjs";
-import {Router} from "@angular/router";
-import {AlertComponent} from "../shared/alert/alert.component";
-import {PlaceholderDirective} from "../shared/placeholder/placeholder.directive";
+import {Observable, Subscription} from 'rxjs';
+import {Router} from '@angular/router';
+import {AlertComponent} from '../shared/alert/alert.component';
+import {PlaceholderDirective} from '../shared/placeholder/placeholder.directive';
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html'
 })
-export class AuthComponent implements OnDestroy{
+export class AuthComponent implements OnDestroy {
   isLogin = false;
   isloading = false;
   error: string = null;
