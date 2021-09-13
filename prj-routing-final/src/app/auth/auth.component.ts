@@ -1,8 +1,9 @@
-import {Component} from '@angular/core';
+import {Component, ComponentFactoryResolver} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {AuthresponseData, AuthService} from './auth.service';
 import {Observable} from "rxjs";
 import {Router} from "@angular/router";
+import {AlertComponent} from "../shared/alert/alert.component";
 
 @Component({
   selector: 'app-auth',
@@ -13,7 +14,7 @@ export class AuthComponent {
   isloading = false;
   error: string = null;
 
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(private authService: AuthService, private router: Router, private CFResolver: ComponentFactoryResolver) {
   }
 
   onSwitchMode() {
@@ -40,10 +41,11 @@ export class AuthComponent {
       console.log(resData);
       this.isloading = false;
       this.router.navigate(['/recipes']);
-    }, error => {
+    }, errorMessage => {
       this.isloading = false;
-      this.error = error;
-      console.log(error);
+      this.error = errorMessage;
+      this.showErroralert(errorMessage);
+      console.log(errorMessage);
     });
 
     form.reset();
@@ -51,6 +53,10 @@ export class AuthComponent {
 
   onHandleError() {
     this.error = null;
+  }
+
+  showErroralert(message: string) {
+    const alertCmpfactory = this.CFResolver.resolveComponentFactory(AlertComponent);
   }
 
 }
