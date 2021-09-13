@@ -1,18 +1,22 @@
-import {Component, ComponentFactoryResolver} from '@angular/core';
+import {Component, ComponentFactoryResolver, OnDestroy, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {AuthresponseData, AuthService} from './auth.service';
-import {Observable} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import {Router} from "@angular/router";
 import {AlertComponent} from "../shared/alert/alert.component";
+import {PlaceholderDirective} from "../shared/placeholder/placeholder.directive";
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html'
 })
-export class AuthComponent {
+export class AuthComponent implements OnDestroy{
   isLogin = false;
   isloading = false;
   error: string = null;
+  @ViewChild(PlaceholderDirective, {static: false})
+  alertHost: PlaceholderDirective;
+  private closeSub: Subscription;
 
   constructor(private authService: AuthService, private router: Router, private CFResolver: ComponentFactoryResolver) {
   }
@@ -44,7 +48,7 @@ export class AuthComponent {
     }, errorMessage => {
       this.isloading = false;
       this.error = errorMessage;
-      this.showErroralert(errorMessage);
+      this.showErrorAlert(errorMessage);
       console.log(errorMessage);
     });
 
@@ -55,8 +59,25 @@ export class AuthComponent {
     this.error = null;
   }
 
-  showErroralert(message: string) {
+  showErrorAlert(message: string) {
+    // const alertCmp = new AlertComponent()
     const alertCmpfactory = this.CFResolver.resolveComponentFactory(AlertComponent);
+    const hostViewContainerRef = this.alertHost.viewContainerRef;
+    hostViewContainerRef.clear();
+
+    const componentRef = hostViewContainerRef.createComponent(alertCmpfactory);
+
+    componentRef.instance.message = message;
+    this.closeSub = componentRef.instance.close.subscribe(() => {
+      this.closeSub.unsubscribe();
+      hostViewContainerRef.clear();
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.closeSub) {
+      this.closeSub.unsubscribe();
+    }
   }
 
 }
