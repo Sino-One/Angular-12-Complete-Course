@@ -17,6 +17,9 @@ import {AlertComponent} from './shared/alert/alert.component';
 import {RecipesModule} from './recipes/recipes.module';
 import {RecipesRoutingModule} from './recipes/recipes-routing.module';
 import {SharedModule} from './shared/shared.module';
+import {StoreModule} from '@ngrx/store';
+import {shoppingListReducer} from './shopping-list/store/shopping-list.reducer';
+
 
 @NgModule({
   declarations: [
@@ -34,7 +37,8 @@ import {SharedModule} from './shared/shared.module';
     HttpClientModule,
     RecipesModule,
     RecipesRoutingModule,
-    SharedModule
+    SharedModule,
+    StoreModule.forRoot({shoppingList: shoppingListReducer})
   ],
   providers: [ShoppingListService, RecipeService, {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}],
   bootstrap: [AppComponent],
