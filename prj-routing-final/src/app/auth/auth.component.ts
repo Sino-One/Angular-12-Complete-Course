@@ -5,6 +5,9 @@ import {Observable, Subscription} from 'rxjs';
 import {Router} from '@angular/router';
 import {AlertComponent} from '../shared/alert/alert.component';
 import {PlaceholderDirective} from '../shared/placeholder/placeholder.directive';
+import {Store} from "@ngrx/store";
+import * as fromApp from '../store/app.reducer';
+import * as AuthActions from './store/auth.actions';
 
 @Component({
   selector: 'app-auth',
@@ -18,7 +21,10 @@ export class AuthComponent implements OnDestroy {
   alertHost: PlaceholderDirective;
   private closeSub: Subscription;
 
-  constructor(private authService: AuthService, private router: Router, private CFResolver: ComponentFactoryResolver) {
+  constructor(private authService: AuthService,
+              private router: Router,
+              private CFResolver: ComponentFactoryResolver,
+              private store: Store<fromApp.AppState>) {
   }
 
   onSwitchMode() {
@@ -36,7 +42,8 @@ export class AuthComponent implements OnDestroy {
 
     this.isloading = true;
     if (this.isLogin) {
-      authObs = this.authService.login(email, pass);
+    //  authObs = this.authService.login(email, pass);
+      this.store.dispatch(new AuthActions.LoginStart({email: email, password: pass}));
     } else {
       authObs = this.authService.signup(email, pass);
     }
