@@ -17,8 +17,7 @@ import {RecipesModule} from './recipes/recipes.module';
 import {RecipesRoutingModule} from './recipes/recipes-routing.module';
 import {SharedModule} from './shared/shared.module';
 import {StoreModule} from '@ngrx/store';
-import {shoppingListReducer} from './shopping-list/store/shopping-list.reducer';
-
+import * as fromApp from './store/app.reducer';
 
 @NgModule({
   declarations: [
@@ -37,7 +36,7 @@ import {shoppingListReducer} from './shopping-list/store/shopping-list.reducer';
     RecipesModule,
     RecipesRoutingModule,
     SharedModule,
-    StoreModule.forRoot({shoppingList: shoppingListReducer})
+    StoreModule.forRoot(fromApp.appReducer)
   ],
   providers: [ RecipeService, {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}],
   bootstrap: [AppComponent],
@@ -47,6 +46,4 @@ import {shoppingListReducer} from './shopping-list/store/shopping-list.reducer';
   exports: []
 })
 export class AppModule {
-
-
 }
