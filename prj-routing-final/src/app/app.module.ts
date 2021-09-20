@@ -19,7 +19,8 @@ import {SharedModule} from './shared/shared.module';
 import {StoreModule} from '@ngrx/store';
 import * as fromApp from './store/app.reducer';
 import { EffectsModule } from '@ngrx/effects';
-import {AuthEffects} from "./auth/store/auth.effects";
+import {AuthEffects} from './auth/store/auth.effects';
+import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import {AuthEffects} from "./auth/store/auth.effects";
     RecipesRoutingModule,
     SharedModule,
     StoreModule.forRoot(fromApp.appReducer),
+    StoreDevtoolsModule.instrument({logOnly: false}),
     EffectsModule.forRoot([AuthEffects])
   ],
   providers: [ RecipeService, {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}],
