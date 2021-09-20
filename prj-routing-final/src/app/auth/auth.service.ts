@@ -26,32 +26,9 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router, private store: Store<fromApp.AppState>) {}
 
-  signup(email: string, password: string) {
-    return this.http.post<AuthresponseData>('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAOecvVFggXeJvRBmYNSMA3eW9fxdRLiT0',
-      {
-        email: email,
-        password: password,
-        returnSecureToken: true
-      }).pipe(catchError(this.handleError), tap(resData => {
-          this.handleAuthentication(resData.email, resData.localId, resData.idToken, +resData.expiresIn);
-    }));
-  }
-
-  login(email: string, password: string) {
-    return this.http.post<AuthresponseData>('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAOecvVFggXeJvRBmYNSMA3eW9fxdRLiT0',
-      {
-        email: email,
-        password: password,
-        returnSecureToken: true
-      }).pipe(catchError(this.handleError), tap(resData => {
-      this.handleAuthentication(resData.email, resData.localId, resData.idToken, +resData.expiresIn);
-    }));
-  }
-
   logout() {
     this.store.dispatch(new AuthActions.Logout());
   //  this.user.next(null);
-    this.router.navigate(['/auth']);
     localStorage.removeItem('userData');
     if (this.tokenExpirationTimer) {
       clearTimeout(this.tokenExpirationTimer);
