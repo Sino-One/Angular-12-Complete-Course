@@ -79,7 +79,7 @@ export class AuthService {
       token,
       expirationDate
       );
-    this.store.dispatch(new AuthActions.Login(
+    this.store.dispatch(new AuthActions.AuthenticateSuccess(
       {email: email,
         userId: userId,
         token: token,
@@ -103,7 +103,7 @@ export class AuthService {
     const loadedUser = new User(userData.email, userData.id, userData._token, new Date(userData._tokenExpirationDate));
 
     if (loadedUser.token) {
-    this.store.dispatch(new AuthActions.Login(
+    this.store.dispatch(new AuthActions.AuthenticateSuccess(
       {
         email: loadedUser.email,
         userId: loadedUser.id,
