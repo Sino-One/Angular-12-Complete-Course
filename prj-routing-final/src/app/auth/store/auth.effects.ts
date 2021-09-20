@@ -1,9 +1,11 @@
 import * as AuthActions from './auth.actions';
 import {Actions, ofType, Effect} from '@ngrx/effects';
-import {catchError, switchMap, map} from 'rxjs/operators';
+import {catchError, switchMap, map, tap} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
-import {of} from 'rxjs';
+import {of, throwError} from 'rxjs';
 import {Injectable} from '@angular/core';
+import {Router} from "@angular/router";
+import {LoginFail} from "./auth.actions";
 
 export interface AuthresponseData {
   kind: string;
@@ -28,20 +30,39 @@ export class AuthEffects {
         }).pipe(
         map(resData => {
           const expirationDate = new Date(new Date().getTime() + +resData.expiresIn * 1000);
-          return of(new AuthActions.Login({
+          return new AuthActions.Login({
             email: resData.email,
             userId: resData.localId,
             token: resData.idToken,
-            expirationDate: expirationDate}));
+            expirationDate: expirationDate});
         }),
         catchError(error => {
-          // ...
-        return of();
+          let errorMessage = 'An unknown error occured!';
+          if (!error.error || !error.error.error) {
+            return of(new AuthActions.LoginFail(errorMessage));
+          }
+          switch (error.error.error.message) {
+            case 'EMAIL_EXISTS':
+              errorMessage = 'The email address is already in use by another account';
+              break;
+            case 'EMAIL_NOT_FOUND':
+              errorMessage = 'There is no user record corresponding to this identifier. The user may have been deleted';
+              break;
+            case 'INVALID_PASSWORD':
+              errorMessage = 'The password is invalid or the user does not have a password';
+              break;
+          }
+        return of(new AuthActions.LoginFail(errorMessage));
       }));
     }),
 
   );
 
-  constructor(private actions$: Actions, private http: HttpClient) { // Dollar sign because is Observable
+  @Effect({dispatch: false})
+  authSuccess = this.actions$.pipe(ofType(AuthActions.LOGIN), tap(() => {
+    this.router.navigate(['/']);
+  }));
+
+  constructor(private actions$: Actions, private http: HttpClient, private router: Router) { // Dollar sign because is Observable
   }
 }
