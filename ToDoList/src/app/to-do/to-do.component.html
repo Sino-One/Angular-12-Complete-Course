@@ -1,0 +1,20 @@
+<hr>
+<div *ngIf="!loading">
+  <fieldset>
+    <legend>To Do List</legend>
+    <div *ngFor="let todo of toDos" style="display: flex">
+      <div style="text-align: center;align-content: center">
+        <h3>{{todo.id}}</h3>
+
+        <p>{{todo.content}}</p>
+      </div>
+      <button (click)="onDelete(todo.id)" style="margin: 24px">Supprimer</button>
+      <app-to-doform [toDo]="todo"></app-to-doform>
+    </div>
+  </fieldset>
+
+</div>
+
+<div *ngIf="loading">
+  En cours....
+</div>

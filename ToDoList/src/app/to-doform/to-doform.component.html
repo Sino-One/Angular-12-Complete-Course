@@ -1,0 +1,14 @@
+<div [formGroup]="formGroup" style="margin: 24px">
+  <label>Id</label>
+  <br>
+  <input type="text" [placeholder]="''" formControlName="id">
+  <br>
+  <label>Contenu</label>
+  <br>
+  <input type="text" [placeholder]="''" formControlName="content">
+  <br>
+  <app-switch></app-switch>
+  <br>
+  <button type="submit" [disabled]="!formGroup.valid" (click)="onSave()">Ajouter à la toDo-List !</button>
+  <br>
+</div>
