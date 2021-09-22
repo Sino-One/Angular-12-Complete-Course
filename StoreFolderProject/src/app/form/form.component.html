@@ -1,0 +1,7 @@
+<div [formGroup]="formGroup">
+<div class="row">
+  <input type="text" formControlName="id" [placeholder]="'Saisir un id'">
+  <input type="text" formControlName="numero" [placeholder]="'Saisir un numéro'">
+</div>
+  <button [disabled]="!formGroup || formGroup.invalid" type="submit" (click)="onSave()">Enregistrer</button>
+</div>

@@ -1,0 +1,20 @@
+<app-form (save)="onSave($event)"></app-form>
+
+<div *ngIf="!loading">
+  <div *ngFor="let dossier of dossiers" style="display: flex">
+    <h3>{{dossier.id}}</h3>
+    |
+    <p>{{dossier.numero}}</p>
+    <div>
+      <app-form [dossier]="dossier"></app-form>
+    </div>
+  </div>
+
+  <fieldset>
+    <legend>Adress</legend>
+  </fieldset>
+
+</div>
+<div *ngIf="loading">
+  En cours....
+</div>
