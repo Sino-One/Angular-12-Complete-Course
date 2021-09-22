@@ -4,6 +4,7 @@ import {toDo} from "../models/toDo.model";
 import {AddToDo, ModifyToDo} from "../store/toDo.action";
 import {Store} from "@ngrx/store";
 import {Route, Router} from "@angular/router";
+import {TodoService} from "../todo.service";
 
 @Component({
   selector: 'app-to-doform',
@@ -16,7 +17,7 @@ export class ToDoformComponent implements OnInit, OnChanges {
   @Output() save = new EventEmitter<toDo>();
   formGroup: FormGroup;
 
-  constructor(private fb: FormBuilder, private store: Store, private router: Router) {
+  constructor(private fb: FormBuilder, private toDoService: TodoService, private router: Router) {
     this.buildform();
   }
 
@@ -32,8 +33,7 @@ export class ToDoformComponent implements OnInit, OnChanges {
   }
 
   onSave() {
-    console.log(this.formGroup.value)
-    this.store.dispatch(new AddToDo(<toDo>(this.formGroup.value)));
+    this.toDoService.onSave(this.formGroup.value);
     if(this.router.url !== '/todolist'){
       this.router.navigate(['/todolist']);
     }
@@ -43,12 +43,11 @@ export class ToDoformComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (this.formGroup && changes && changes.toDo) {
       this.formGroup.patchValue(this.toDo);
-    //  this.store.dispatch(new ModifyToDo(this.toDo))
     }
   }
 
   onModify() {
-    this.store.dispatch(new ModifyToDo(this.formGroup.value))
+    this.toDoService.onModify(this.formGroup.value);
   }
 
   onCreate() {

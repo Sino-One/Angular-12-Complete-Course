@@ -7,6 +7,10 @@
   <br>
   <input type="text" [placeholder]="''" formControlName="content">
   <br>
+  <label>Done</label>
+  <br>
+  <input type="checkbox" [placeholder]="''" formControlName="done">
+  <br>
   <app-switch></app-switch>
   <br>
   <button *ngIf="onCreate()" type="submit" [disabled]="!formGroup.valid" (click)="onSave()">Ajouter à la toDo-List !</button>

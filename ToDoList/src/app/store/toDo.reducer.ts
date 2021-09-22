@@ -21,7 +21,7 @@ export function toDoReducer(
     case ToDoActionTypes.AddToDo:
       return {
         ...state,
-        toDos: [...state.toDos, action.payload],
+        toDos: [action.payload],
         loading: true,
         loaded: false
       };
@@ -52,6 +52,7 @@ export function toDoReducer(
         })
       };
     case ToDoActionTypes.ModifyToDo:
+      debugger
       return {
         ...state.toDos[action.payload.id],
         ...action.payload
