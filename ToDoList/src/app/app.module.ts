@@ -13,6 +13,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { ToDoComponent } from './to-do/to-do.component';
 import {RouterModule} from "@angular/router";
 import { SwitchComponent } from './switch/switch.component';
+import {CommonModule} from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { SwitchComponent } from './switch/switch.component';
     StoreModule.forRoot({Todo: toDoReducer}, {}),
     ReactiveFormsModule,
     RouterModule,
-    FormsModule
+    FormsModule,
+    CommonModule
   ],
   providers: [TodoService],
   bootstrap: [AppComponent]

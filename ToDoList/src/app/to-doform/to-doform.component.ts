@@ -1,9 +1,9 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {toDo} from "../models/toDo.model";
-import {AddToDo} from "../store/toDo.action";
+import {AddToDo, ModifyToDo} from "../store/toDo.action";
 import {Store} from "@ngrx/store";
-import {Router} from "@angular/router";
+import {Route, Router} from "@angular/router";
 
 @Component({
   selector: 'app-to-doform',
@@ -16,10 +16,11 @@ export class ToDoformComponent implements OnInit, OnChanges {
   @Output() save = new EventEmitter<toDo>();
   formGroup: FormGroup;
 
-  constructor(private fb: FormBuilder, private store: Store, private router: Router) { }
+  constructor(private fb: FormBuilder, private store: Store, private router: Router) {
+    this.buildform();
+  }
 
   ngOnInit(): void {
-    this.buildform();
   }
 
   buildform(): void {
@@ -42,7 +43,19 @@ export class ToDoformComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (this.formGroup && changes && changes.toDo) {
       this.formGroup.patchValue(this.toDo);
+    //  this.store.dispatch(new ModifyToDo(this.toDo))
     }
+  }
+
+  onModify() {
+    this.store.dispatch(new ModifyToDo(this.formGroup.value))
+  }
+
+  onCreate() {
+    if (this.router.url.includes('todoform')){
+      return true
+    }
+    return false;
   }
 
 }

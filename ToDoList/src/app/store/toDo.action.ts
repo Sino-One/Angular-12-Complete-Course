@@ -41,7 +41,7 @@ export class DeleteToDo implements Action {
 export class ModifyToDo implements Action {
   readonly type = ToDoActionTypes.ModifyToDo;
 
-  constructor(public payload: {id: number, toDo: toDo}) {
+  constructor(public payload: toDo ) {
   }
 }
 

@@ -6,7 +6,7 @@
       <div style="text-align: center;align-content: center">
         <h3>{{todo.id}}</h3>
 
-        <p>{{todo.content}}</p>
+        <p [ngClass]="{'done': todo.done}">{{todo.content}}</p>
       </div>
       <button (click)="onDelete(todo.id)" style="margin: 24px">Supprimer</button>
       <app-to-doform [toDo]="todo"></app-to-doform>

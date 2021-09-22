@@ -9,6 +9,7 @@
   <br>
   <app-switch></app-switch>
   <br>
-  <button type="submit" [disabled]="!formGroup.valid" (click)="onSave()">Ajouter à la toDo-List !</button>
+  <button *ngIf="onCreate()" type="submit" [disabled]="!formGroup.valid" (click)="onSave()">Ajouter à la toDo-List !</button>
+  <button *ngIf="!onCreate()" type="submit" [disabled]="!formGroup.valid" (click)="onModify()">Modifier</button>
   <br>
 </div>

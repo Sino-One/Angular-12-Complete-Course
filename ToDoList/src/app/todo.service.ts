@@ -11,22 +11,22 @@ export class TodoService {
   findAll(): Observable<toDo[]> {
     return of([
       {
-        id: 0,
+        id: 1,
         content: 'Faire des pates',
         done: true
       },
       {
-        id: 1,
-        content: 'Tirer la chasse',
-        done: false
-      },
-      {
         id: 2,
-        content: "Monter l'escalier",
+        content: 'Tirer la chasse',
         done: true
       },
       {
         id: 3,
+        content: "Monter l'escalier",
+        done: true
+      },
+      {
+        id: 4,
         content: 'Se cuire un oeuf',
         done: false
       },

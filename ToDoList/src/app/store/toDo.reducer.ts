@@ -47,14 +47,14 @@ export function toDoReducer(
     case ToDoActionTypes.DeleteToDo:
       return {
         ...state,
-        toDos: state.toDos.filter((toDo, index) => {
-          return index != action.payload;
+        toDos: state.toDos.filter((toDo) => {
+          return toDo.id != action.payload;
         })
       };
     case ToDoActionTypes.ModifyToDo:
       return {
         ...state.toDos[action.payload.id],
-        ...action.payload.toDo
+        ...action.payload
       };
     default:
       return state;
