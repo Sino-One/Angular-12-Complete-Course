@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {toDo} from "./models/toDo.model";
 import {Observable, of} from "rxjs";
-import {delay} from "rxjs/operators";
+import {delay, tap} from "rxjs/operators";
 import {select, Store} from "@ngrx/store";
 import {SelectToDo, SelectToDoLoaded, SelectToDoLoading} from "./store/toDo.selector";
 import {AddToDo, DeleteToDo, LoadToDos, ModifyToDo} from "./store/toDo.action";
@@ -41,7 +41,7 @@ export class TodoService {
   }
 
   constructor(private store: Store) {
-    this.toDo$ = this.store.pipe(select(SelectToDo));
+    this.toDo$ = this.store.select(SelectToDo);
     this.loading$ = this.store.select(SelectToDoLoading);
     this.loaded$ = this.store.select(SelectToDoLoaded);
   }

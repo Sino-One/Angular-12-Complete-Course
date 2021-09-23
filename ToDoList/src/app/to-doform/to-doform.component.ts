@@ -1,51 +1,63 @@
 import {Component, EventEmitter, Inject, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
 import {toDo} from "../models/toDo.model";
 import {Router} from "@angular/router";
 import {TodoService} from "../todo.service";
-import {map} from "rxjs/operators";
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {Store} from "@ngrx/store";
+import {AddToDo} from "../store/toDo.action";
 
 @Component({
   selector: 'app-to-doform',
   templateUrl: './to-doform.component.html',
   styleUrls: ['./to-doform.component.css']
 })
-export class ToDoformComponent implements OnInit, OnChanges {
+export class ToDoformComponent implements OnInit {
 
   @Input() toDo: toDo;
+  @Input() toDoList: toDo[];
   @Output() save = new EventEmitter<toDo>();
   formGroup: FormGroup;
 
   constructor(private fb: FormBuilder,
               private toDoService: TodoService,
-              private router: Router/*,
+              private router: Router, private store: Store
+              /*,
               public dialogRef: MatDialogRef<ToDoformComponent>,
               @Inject(MAT_DIALOG_DATA) public data: toDo*/) {
-    this.buildform();
   }
 
   ngOnInit(): void {
+    this.buildform();
   }
 
   buildform(): void {
     this.formGroup = this.fb.group({
-      id: ['', [Validators.required, Validators.pattern(/^[0-9]\d*$/)]],
-      content: ['', Validators.required],
+      id: [this.toDo? this.toDo.id : '', [
+            Validators.required,
+            Validators.pattern(/^[0-9]\d*$/),
+            this.idValidator
+      ]],
+      content: [this.toDo? this.toDo.content : '', Validators.required],
       done: [this.toDo? this.toDo.done : '']
     })
   }
 
-  onSave() {
-    this.toDoService.onSave(this.formGroup.value);
-    if(this.router.url !== '/todolist'){
-      this.router.navigate(['/todolist']);
-    }
+  idValidator(control: AbstractControl): ValidatorFn {
+    let isValid = undefined;
+    this?.toDoList.forEach(todo => {
+      if (todo.id == control.value) {
+        isValid = {forbiddenId: {value: control.value}};
+      } else {
+        isValid = null;
+      }
+    });
+    return isValid
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (this.formGroup && changes?.toDo) {
-      this.formGroup.patchValue(this.toDo);
+  onSave() {
+    this.store.dispatch(new AddToDo(this.toDo));
+    if(this.router.url !== '/todolist'){
+      this.router.navigate(['/todolist']);
     }
   }
 
@@ -54,10 +66,9 @@ export class ToDoformComponent implements OnInit, OnChanges {
   }
 
   onCreate() {
-    if (this.router.url.includes('todoform')){
+    if (this.router.url.includes('todoform')) {
       return true
     }
     return false;
   }
-
 }

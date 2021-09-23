@@ -17,7 +17,7 @@
           <button mat-button (click)="openDialog(todo)">Modifier</button>
         </mat-card-actions>-->
       </mat-card>
-      <app-to-doform [toDo]="todo"></app-to-doform>
+      <app-to-doform [toDo]="todo" [toDoList]="toDo$ | async"></app-to-doform>
     </div>
   </fieldset>
 

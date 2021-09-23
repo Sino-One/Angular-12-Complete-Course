@@ -20,14 +20,18 @@ export class ToDoComponent implements OnInit, OnDestroy {
   loaded = false;
 
   subcription: Subscription[] = [];
+  toDo$: Observable<toDo[]>;
 
-  constructor(private toDoService: TodoService, public dialog: MatDialog) {
+  constructor(public toDoService: TodoService, public dialog: MatDialog, private store: Store) {
   }
 
   ngOnInit() {
-    this.subcription.push(this.toDoService.toDo$.subscribe(todos => this.toDos = todos));
+    this.toDo$ = this.store.select(SelectToDo);
+    this.subcription.push(this.toDo$.subscribe(todos => this.toDos = todos));
     this.subcription.push(this.toDoService.loading$.subscribe(loadingState => this.loading = loadingState));
     this.subcription.push(this.toDoService.loaded$.subscribe(loadedState => this.loaded = loadedState));
+
+    console.log(this.toDos);
   }
 
   ngOnDestroy() {
