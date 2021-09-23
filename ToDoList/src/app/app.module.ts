@@ -14,6 +14,8 @@ import { ToDoComponent } from './to-do/to-do.component';
 import {RouterModule} from "@angular/router";
 import { SwitchComponent } from './switch/switch.component';
 import {CommonModule} from "@angular/common";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatCardModule} from "@angular/material/card";
 
 @NgModule({
   declarations: [
@@ -30,7 +32,10 @@ import {CommonModule} from "@angular/common";
     ReactiveFormsModule,
     RouterModule,
     FormsModule,
-    CommonModule
+    CommonModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatCardModule
   ],
   providers: [TodoService],
   bootstrap: [AppComponent]

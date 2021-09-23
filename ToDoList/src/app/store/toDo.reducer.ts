@@ -21,9 +21,7 @@ export function toDoReducer(
     case ToDoActionTypes.AddToDo:
       return {
         ...state,
-        toDos: [action.payload],
-        loading: true,
-        loaded: false
+        toDos: [...state.toDos, action.payload]
       };
     case ToDoActionTypes.LoadToDos:
       return {
@@ -52,10 +50,16 @@ export function toDoReducer(
         })
       };
     case ToDoActionTypes.ModifyToDo:
-      debugger
-      return {
+      const updatedToDo = {
         ...state.toDos[action.payload.id],
         ...action.payload
+      };
+
+      const updatedToDos = [...state.toDos];
+      updatedToDos[action.payload.id] = updatedToDo;
+      return {
+        ...state,
+        toDos: updatedToDos
       };
     default:
       return state;

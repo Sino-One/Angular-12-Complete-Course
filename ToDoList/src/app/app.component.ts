@@ -4,6 +4,7 @@ import {Observable, Subscription} from "rxjs";
 import {select, Store} from "@ngrx/store";
 import {SelectToDo, SelectToDoLoaded, SelectToDoLoading} from "./store/toDo.selector";
 import {AddToDo, LoadToDos} from "./store/toDo.action";
+import {TodoService} from "./todo.service";
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,8 @@ import {AddToDo, LoadToDos} from "./store/toDo.action";
 })
 export class AppComponent implements OnInit, OnDestroy{
 
-  constructor() {
+  constructor(private toDoService: TodoService) {
+    this.toDoService.initToDos();
   }
 
   ngOnInit() {

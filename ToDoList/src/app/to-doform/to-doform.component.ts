@@ -1,10 +1,9 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {toDo} from "../models/toDo.model";
-import {AddToDo, ModifyToDo} from "../store/toDo.action";
-import {Store} from "@ngrx/store";
-import {Route, Router} from "@angular/router";
+import {Router} from "@angular/router";
 import {TodoService} from "../todo.service";
+import {map} from "rxjs/operators";
 
 @Component({
   selector: 'app-to-doform',
@@ -26,7 +25,7 @@ export class ToDoformComponent implements OnInit, OnChanges {
 
   buildform(): void {
     this.formGroup = this.fb.group({
-      id: [''],
+      id: ['', Validators.required],
       content: ['', Validators.required],
       done: ['']
     })
@@ -47,7 +46,7 @@ export class ToDoformComponent implements OnInit, OnChanges {
   }
 
   onModify() {
-    this.toDoService.onModify(this.formGroup.value);
+    this.toDoService.onModify(<toDo>(this.formGroup.value));
   }
 
   onCreate() {

@@ -17,26 +17,23 @@ export class ToDoComponent implements OnInit, OnDestroy {
   loading = true;
   loaded = false;
 
-
   subcription: Subscription[] = [];
 
   constructor(private toDoService: TodoService) {
-
   }
 
   ngOnInit() {
     this.subcription.push(this.toDoService.toDo$.subscribe(todos => this.toDos = todos));
     this.subcription.push(this.toDoService.loading$.subscribe(loadingState => this.loading = loadingState));
     this.subcription.push(this.toDoService.loaded$.subscribe(loadedState => this.loaded = loadedState));
-    this.toDoService.initToDos();
   }
 
   ngOnDestroy() {
     this.subcription.forEach((sub)=> sub.unsubscribe());
   }
 
-  onSave(event: toDo) {
-    this.toDoService.onSave(event);
+  onSave(toDo: toDo) {
+    this.toDoService.onSave(toDo);
   }
 
   onDelete(id: number) {

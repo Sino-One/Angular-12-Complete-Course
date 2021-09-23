@@ -1,3 +1,6 @@
-<input type="checkbox" id="do"
-       name="contact" value="do">
-<label for="do">Fait</label>
+<form [formGroup]="formGroup">
+  <input type="checkbox" id="do"
+         name="contact" value="do" formControlName="done">
+  <label for="do">Fait</label>
+</form>
+
