@@ -51,12 +51,18 @@ export function toDoReducer(
       };
     case ToDoActionTypes.ModifyToDo:
       const updatedToDo = {
-        ...state.toDos[action.payload.id],
+        ...state.toDos.filter((toDo) => {
+          return toDo.id != action.payload.id;
+        }),
         ...action.payload
       };
 
-      const updatedToDos = [...state.toDos];
-      updatedToDos[action.payload.id] = updatedToDo;
+      let updatedToDos = [...state.toDos];
+      updatedToDos.forEach((todo, index, todos) => {
+        if (todo.id == updatedToDo.id) {
+          todos[index] = updatedToDo;
+        }
+      });
       return {
         ...state,
         toDos: updatedToDos

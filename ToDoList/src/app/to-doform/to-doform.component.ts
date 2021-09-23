@@ -30,7 +30,7 @@ export class ToDoformComponent implements OnInit, OnChanges {
 
   buildform(): void {
     this.formGroup = this.fb.group({
-      id: ['', Validators.required, ],
+      id: ['', [Validators.required, Validators.pattern(/^[0-9]\d*$/)]],
       content: ['', Validators.required],
       done: [this.toDo? this.toDo.done : '']
     })
