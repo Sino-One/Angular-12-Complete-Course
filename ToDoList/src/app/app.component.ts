@@ -13,8 +13,8 @@ import {TodoService} from "./todo.service";
 })
 export class AppComponent implements OnInit, OnDestroy{
 
-  constructor(private toDoService: TodoService) {
-    this.toDoService.initToDos();
+  constructor(private store: Store) {
+    this.store.dispatch(new LoadToDos());
   }
 
   ngOnInit() {

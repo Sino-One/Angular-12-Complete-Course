@@ -4,7 +4,7 @@ import {toDo} from "../models/toDo.model";
 import {Router} from "@angular/router";
 import {TodoService} from "../todo.service";
 import {Store} from "@ngrx/store";
-import {AddToDo} from "../store/toDo.action";
+import {AddToDo, ModifyToDo} from "../store/toDo.action";
 
 @Component({
   selector: 'app-to-doform',
@@ -62,7 +62,7 @@ export class ToDoformComponent implements OnInit {
   }
 
   onModify() {
-    this.toDoService.onModify(<toDo>(this.formGroup.value));
+    this.store.dispatch(new ModifyToDo(this.formGroup.value));
   }
 
   onCreate() {

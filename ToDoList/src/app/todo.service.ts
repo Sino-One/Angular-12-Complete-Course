@@ -46,20 +46,5 @@ export class TodoService {
     this.loaded$ = this.store.select(SelectToDoLoaded);
   }
 
-  onModify(value: toDo) {
-    this.store.dispatch(new ModifyToDo(value));
-  }
-
-  initToDos() {
-    this.store.dispatch(new LoadToDos());
-  }
-
-  onSave(toDo: toDo) {
-    this.store.dispatch(new AddToDo(toDo));
-  }
-
-  onDelete(id: number) {
-    this.store.dispatch(new DeleteToDo(id));
-  }
 
 }

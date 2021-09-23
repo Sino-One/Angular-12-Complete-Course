@@ -30,7 +30,6 @@ export class ToDoComponent implements OnInit, OnDestroy {
     this.subcription.push(this.toDo$.subscribe(todos => this.toDos = todos));
     this.subcription.push(this.toDoService.loading$.subscribe(loadingState => this.loading = loadingState));
     this.subcription.push(this.toDoService.loaded$.subscribe(loadedState => this.loaded = loadedState));
-
     console.log(this.toDos);
   }
 
@@ -39,11 +38,11 @@ export class ToDoComponent implements OnInit, OnDestroy {
   }
 
   onSave(toDo: toDo) {
-    this.toDoService.onSave(toDo);
+    this.store.dispatch(new AddToDo(toDo));
   }
 
   onDelete(id: number) {
-    this.toDoService.onDelete(id);
+    this.store.dispatch(new DeleteToDo(id));
   }
 
   openDialog(todo: toDo) {
