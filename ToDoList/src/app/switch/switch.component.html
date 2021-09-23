@@ -1,6 +1,14 @@
-<form [formGroup]="formGroup">
   <input type="checkbox" id="do"
-         name="contact" value="do" formControlName="done">
+         name="contact"
+         [(ngModel)]="value"
+                (change)="valueChange()">
   <label for="do">Fait</label>
-</form>
 
+  <!--
+           (varnameChange)="valueChange($event)"
+           [varname]="value"
+
+           ===
+
+           [(varname)]="value"
+           -->

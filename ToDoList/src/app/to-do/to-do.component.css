@@ -1,3 +1,17 @@
 .done {
   text-decoration: line-through;
 }
+
+.card {
+  width: 150px;
+  background-color: gold;
+  margin: 16px
+}
+
+.delete {
+  background-color: white;
+  color: brown;
+  position: absolute;
+  right: 4px;
+  top: 4px;
+}

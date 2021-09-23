@@ -1,19 +1,16 @@
 <div [formGroup]="formGroup" style="margin: 24px">
   <label>Id</label>
-  <br>
-  <input type="text" [placeholder]="''" formControlName="id">
-  <br>
+  <input  type="text" [placeholder]="''" formControlName="id">
   <label>Contenu</label>
-  <br>
   <input type="text" [placeholder]="''" formControlName="content">
-  <br>
   <!--<label>Fait</label>
   <br>
   <input type="checkbox" [placeholder]="''" formControlName="done">
   <br>-->
-  <app-switch [toDo]="toDo" formControlName="done"></app-switch>
+  <app-switch formControlName="done"></app-switch>
   <br>
   <button *ngIf="onCreate()" type="submit" [disabled]="!formGroup.valid" (click)="onSave()">Ajouter à la toDo-List !</button>
   <button *ngIf="!onCreate()" type="submit" [disabled]="!formGroup.valid" (click)="onModify()">Modifier</button>
   <br>
 </div>
+

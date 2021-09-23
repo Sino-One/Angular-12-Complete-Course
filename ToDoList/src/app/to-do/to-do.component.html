@@ -2,13 +2,21 @@
 <div *ngIf="!loading">
   <fieldset>
     <legend>To Do List</legend>
-    <div *ngFor="let todo of toDos" style="display: flex" >
-      <div style="text-align: center;align-content: center">
-        <h3>{{todo.id}}</h3>
+    <div *ngFor="let todo of toDos" style="display: flex">
+      <mat-card class="card">
+        <button (click)="onDelete(todo.id)" class="delete">X
+        </button>
+        <mat-card-header>
+          <h3>{{todo.id}}</h3>
+        </mat-card-header>
+        <mat-card-content>
+          <p [ngClass]="{'done': todo.done}">{{todo.content}}</p>
 
-        <p [ngClass]="{'done': todo.done}">{{todo.content}}</p>
-      </div>
-      <button (click)="onDelete(todo.id)" style="margin: 24px">Supprimer</button>
+        </mat-card-content>
+        <!--<mat-card-actions style="text-align: center;">
+          <button mat-button (click)="openDialog(todo)">Modifier</button>
+        </mat-card-actions>-->
+      </mat-card>
       <app-to-doform [toDo]="todo"></app-to-doform>
     </div>
   </fieldset>

@@ -16,6 +16,11 @@ import { SwitchComponent } from './switch/switch.component';
 import {CommonModule} from "@angular/common";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatCardModule} from "@angular/material/card";
+import {MatButtonModule} from "@angular/material/button";
+import {MatIconModule} from "@angular/material/icon";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatDialogContent, MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
@@ -35,7 +40,12 @@ import {MatCardModule} from "@angular/material/card";
     CommonModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    MatCardModule
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatCheckboxModule,
+    MatDialogModule
   ],
   providers: [TodoService],
   bootstrap: [AppComponent]

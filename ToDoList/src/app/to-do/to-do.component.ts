@@ -5,6 +5,8 @@ import {select, Store} from "@ngrx/store";
 import {SelectToDo, SelectToDoLoaded, SelectToDoLoading} from "../store/toDo.selector";
 import {AddToDo, DeleteToDo, LoadToDos} from "../store/toDo.action";
 import {TodoService} from "../todo.service";
+import {MatDialog} from "@angular/material/dialog";
+import {ToDoformComponent} from "../to-doform/to-doform.component";
 
 @Component({
   selector: 'app-to-do',
@@ -19,7 +21,7 @@ export class ToDoComponent implements OnInit, OnDestroy {
 
   subcription: Subscription[] = [];
 
-  constructor(private toDoService: TodoService) {
+  constructor(private toDoService: TodoService, public dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -40,4 +42,13 @@ export class ToDoComponent implements OnInit, OnDestroy {
     this.toDoService.onDelete(id);
   }
 
+  openDialog(todo: toDo) {
+    const dialogRef = this.dialog.open(ToDoformComponent, {
+      data: {id: todo.id, content: todo.content, done: todo.done}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
 }
